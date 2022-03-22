@@ -3,6 +3,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const path = require('path');
 
 
 module.exports = {
@@ -11,7 +12,8 @@ module.exports = {
         minimizer: [ new CssMinimizerPlugin() ]
     },
     output: {
-        filename: 'main.[hash].js'
+        filename: 'main.[hash].js',
+        path: path.resolve(__dirname, "dist"),
     },
 
     module: {
@@ -75,6 +77,8 @@ module.exports = {
                 { from: 'src/assets', to: 'assets/' }
             ]
         }),
-        new CleanWebpackPlugin(),
+        new CleanWebpackPlugin({
+            cleanOnceBeforeBuildPatterns: [path.join(__dirname, "dist/**/*")],
+        }),
     ]
 }
